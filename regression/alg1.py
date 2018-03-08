@@ -12,6 +12,25 @@ y_train = np.loadtxt('y_train.csv', delimiter=',', skiprows=1)[:,1]
 # Fit model and predict test values
 y_pred = np.random.randint(y_train.min(), y_train.max(), X_test.shape[0])
 
+# X(^T)X
+
+temp = np.dot(np.transpose(X_train), X_train)
+
+# (X(^T)X)^-1
+
+temp = np.linalg.inv(temp)
+
+# ((X(^T)X)^-1)X(^T)
+
+temp = np.dot(temp, np.transpose(X_train))
+
+# w = ((X(^T)X)^-1)X(^T)t
+
+w = np.dot(temp, y_train)
+
+y_pred = np.dot(w, np.transpose(X_test))
+
+
 # Arrange answer in two columns. First column (with header "Id") is an
 # enumeration from 0 to n-1, where n is the number of test points. Second
 # column (with header "EpiOrStroma" is the predictions.
