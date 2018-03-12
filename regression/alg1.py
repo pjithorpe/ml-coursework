@@ -31,33 +31,6 @@ w = np.dot(temp, y_train)
 # prediction = wx
 y_pred = np.dot(w, np.transpose(X_test))
 
-def gradient(w, x, y):
-    y_estimate = x.dot(w).flatten()
-    error = (y.flatten() - y_estimate)
-    gradient = -(1.0/len(x)) * error.dot(x)
-    return gradient, np.power(error, 2)
-
-alpha = 0.5
-tolerance = 1e-5
-
-# Perform Gradient Descent
-iterations = 1
-while True:
-    gradient, error = gradient(w, X_train, y_train)
-    new_w = w - alpha * gradient
-    
-    # Stopping Condition
-    if np.sum(abs(new_w - w)) < tolerance:
-        print("Converged.")
-        break
-    
-    # Print error every 50 iterations
-    if iterations % 100 == 0:
-        print("Iteration: %d - Error: %.4f" %(iterations, error))
-    
-    iterations += 1
-    w = new_w
-
 # Arrange answer in two columns. First column (with header "Id") is an
 # enumeration from 0 to n-1, where n is the number of test points. Second
 # column (with header "EpiOrStroma" is the predictions.
