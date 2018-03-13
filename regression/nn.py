@@ -16,6 +16,7 @@ print(X_train)
 # fully connect 2 layers
 m = Sequential()
 m.add(Dense(20, input_dim=6, kernel_initializer='normal', activation='relu'))
+m.add(Dense(6, kernel_initializer='normal', activation='relu'))
 m.add(Dense(1, kernel_initializer='normal'))
 
 m.compile(loss='mean_squared_error', optimizer='adam')
