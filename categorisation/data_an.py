@@ -1,33 +1,30 @@
 import numpy as np
-from sklearn.svm import NuSVC
+from sklearn.svm import LinearSVC
 from sklearn.model_selection import GridSearchCV
-from sklearn.feature_selection import SelectKBest
-from sklearn.feature_selection import chi2
-from sklearn.feature_selection import f_classif
 
 # Load training and testing data
 X_train = np.loadtxt('X_train.csv', delimiter=',', skiprows=1)
 X_test = np.loadtxt('X_test.csv', delimiter=',', skiprows=1)
 y_train = np.loadtxt('y_train.csv', delimiter=',', skiprows=1)[:, 1]
 
-feature_selector = SelectKBest(f_classif, k=60)
-
-X_train_new = feature_selector.fit_transform(X_train, y_train)
-
-X_test_new =feature_selector.transform(X_test)
-
-svc = NuSVC(kernel='linear',decision_function_shape='ovo', shrinking=True)
+svc = LinearSVC()
 # Fit model and predict test values
 
-svc.fit(X_train_new, y_train)
+params_grid = [
+	{
+		'dual': [False],
+		'C': [0.01],
+		'multi_class': ['ovr', 'crammer_singer'],
+		'fit_intercept': [True, False],
+	}
+]
 
-y_pred = svc.predict(X_test_new)
+gridsearch = GridSearchCV(svc, params_grid, n_jobs=-1, verbose=30)
+gridsearch.fit(X_train, y_train)
 
-print(y_pred)
-
-#lr(best_params).fit(X_new, y_train)
-
-#y_pred = gridsearch.predict(X_test)
+best_params = gridsearch.best_params_
+print(best_params)
+y_pred = gridsearch.predict(X_test)
 
 # Arrange answer in two columns. First column (with header "Id") is an
 # enumeration from 0 to n-1, where n is the number of test points. Second
