@@ -10,26 +10,18 @@ X_train = np.loadtxt('X_train.csv', delimiter=',', skiprows=1)
 X_test = np.loadtxt('X_test.csv', delimiter=',', skiprows=1)
 y_train = np.loadtxt('y_train.csv', delimiter=',', skiprows=1)[:, 1]
 
-max = 1
-min = 0
-
 feature_selector = SelectKBest(f_classif, k=37)
 
 X_train_new = feature_selector.fit_transform(X_train, y_train)
 
 X_test_new =feature_selector.transform(X_test)
 
-X_std_tr = (X_train_new - X_train_new.min(axis=0)) / (X_train_new.max(axis=0) - X_train_new.min(axis=0))
-X_std_te = (X_test_new - X_test_new.min(axis=0)) / (X_test_new.max(axis=0) - X_test_new.min(axis=0))
-X_scaled_tr = X_std_tr * (max - min) + min
-X_scaled_te = X_std_te * (max - min) + min
-
 lr = LogisticRegression(C=0.01, dual=False, fit_intercept=True)
 # Fit model and predict test values
 
-lr.fit(X_scaled_tr, y_train)
+lr.fit(X_train_new, y_train)
 
-y_pred = lr.predict(X_scaled_te)
+y_pred = lr.predict(X_train_new)
 
 print(y_pred)
 
