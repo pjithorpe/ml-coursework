@@ -21,7 +21,7 @@ lr = LogisticRegression(C=0.01, dual=False, fit_intercept=True)
 
 lr.fit(X_train_new, y_train)
 
-y_pred = lr.predict(X_train_new)
+y_pred = lr.predict(X_test_new)
 
 print(y_pred)
 

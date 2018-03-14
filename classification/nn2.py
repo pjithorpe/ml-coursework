@@ -41,7 +41,7 @@ def create_baseline():
 
 # Fit model and predict test values
 
-k_class = KerasClassifier(build_fn=create_baseline, epochs=50, batch_size=5)
+k_class = KerasClassifier(build_fn=create_baseline, epochs=100, batch_size=5)
 
 k_class.fit(X_train_new, y_train)
 
